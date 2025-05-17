@@ -1,14 +1,20 @@
 <template>
   <div class="min-h-screen body  py-8">
+
+    <div class="max-w-4xl mx-auto rounded-lg shadow-md overflow-hidden">
+      <img class="h-44 mx-auto" :src="kycLogo" alt=""/>
+    </div>
     <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
       <!-- Header with Logo -->
       <div class="flex items-center p-6 bg-white border-b border-gray-200">
 
         <div>
-          <h1 class="text-2xl font-bold text-purple-800">KYC Form for Real Estate Transactions</h1>
+          <div class="text-2xl font-bold text-gray-600">KYC Form for Real Estate Transactions</div>
           <p class="text-gray-600">(Buyer/Seller/Developer) In compliance with UAE Anti-Money Laundering Regulations</p>
         </div>
       </div>
+
+
 
       <form @submit.prevent="submitForm" class="p-6 space-y-8">
         <!-- A. Client Information -->
@@ -585,9 +591,8 @@
 
             <div>
               <label class="block text-gray-700 font-medium mb-2">Signature of the Applicant <span class="text-red-500">*</span></label>
-              <div class="border border-gray-300 rounded-lg p-4 h-32 flex items-center justify-center">
-                <p class="text-gray-500">Signature pad would be implemented here</p>
-              </div>
+
+                <SignatureLight/>
               <button type="button" class="btn btn-ghost btn-sm mt-2">Clear Signature</button>
             </div>
           </div>
@@ -614,7 +619,7 @@
 
         <!-- Submit Button -->
         <div class="flex justify-center pt-6">
-          <button type="submit" class="btn btn-primary px-8">Submit</button>
+          <button type="submit" class="btn  btn-black px-8">Submit</button>
         </div>
       </form>
     </div>
@@ -622,7 +627,10 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch } from 'vue';
+import {ref, reactive, watch} from 'vue';
+import kycLogo from "@/assets/static/kyc-logo.png";
+import Signature from "@/components/Signature.vue";
+import SignatureLight from "@/components/SignatureLight.vue";
 
 // --- Reactive Form Data ---
 const form = reactive({
@@ -799,8 +807,7 @@ const submitForm = () => {
       form[key].forEach((item, index) => {
         formData.append(`${key}[${index}]`, item);
       });
-    }
-    else {
+    } else {
       formData.append(key, form[key]);
     }
   }

@@ -7,7 +7,7 @@ export default {
     theme: {
         extend: {
             colors: {
-                danger: "#EF4444",
+                danger: "#edd37e",
                 success: "#00A86E",
                 warning: "#FEBD00",
 
