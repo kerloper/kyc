@@ -13,11 +13,11 @@ onMounted(()=>{
 </script>
 
 <template>
-  <section>
+  <section >
     <router-view/>
 
     <section id="header">
-      <HomeHeader/>
+<!--      <HomeHeader/>-->
     </section>
 
    <section id="kyc">

@@ -31,6 +31,6 @@ export const listSetting = {
 }
 
 export const website = {
-    logo: import('../assets/logos/digikala-en.png'),
+    logo: import('../assets/static/lock.png'),
 }
 

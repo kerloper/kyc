@@ -78,48 +78,48 @@ const scrollToSection = (section) => {
 </script>
 
 <template>
-  <nav class="navbar fixed-top" :class="{'top-nav-collapse':isNavFixed}">
-    <div class="container sm:px-4 lg:px-8 flex flex-wrap items-center justify-between lg:flex-nowrap">
+<!--  <nav class="navbar fixed-top" :class="{'top-nav-collapse':isNavFixed}">-->
+<!--    <div class="container sm:px-4 lg:px-8 flex flex-wrap items-center justify-between lg:flex-nowrap">-->
 
-      <RouterLink class="inline-block mr-4 py-0.5 text-xl whitespace-nowrap hover:no-underline focus:no-underline"
-         to="/#header">
-        <img src="/src/assets/logos/digikala-en.png" alt="alternative" class="h-10"/>
-      </RouterLink>
+<!--      <RouterLink class="inline-block mr-4 text-xl whitespace-nowrap hover:no-underline focus:no-underline"-->
+<!--         to="/#header">-->
+<!--        <img src="/src/assets/static/lock.png" alt="alternative" class="h-20"/>-->
+<!--      </RouterLink>-->
 
-      <label class="swap swap-rotate leading-none hover:no-underline focus:no-underline lg:hidden lg:text-gray-400">
-        <!-- this hidden checkbox controls the state -->
-        <input type="checkbox" @click="toggleMenu" class="theme-controller" :value="isMenuOpen.toString()"
-               :checked="isMenuOpen"/>
+<!--      <label class="swap swap-rotate leading-none hover:no-underline focus:no-underline lg:hidden lg:text-gray-400">-->
+<!--        &lt;!&ndash; this hidden checkbox controls the state &ndash;&gt;-->
+<!--        <input type="checkbox" @click="toggleMenu" class="theme-controller" :value="isMenuOpen.toString()"-->
+<!--               :checked="isMenuOpen"/>-->
 
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-             stroke="currentColor" class="swap-off size-10">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-             stroke="currentColor" class="swap-on size-10">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
-        </svg>
+<!--        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
+<!--             stroke="currentColor" class="swap-off size-10">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>-->
+<!--        </svg>-->
+<!--        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
+<!--             stroke="currentColor" class="swap-on size-10">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>-->
+<!--        </svg>-->
 
-      </label>
+<!--      </label>-->
 
-      <div class="navbar-collapse offcanvas-collapse lg:flex lg:flex-grow lg:items-center" :class="{'open':isMenuOpen}">
-        <ul class="pl-0 mt-3 mb-2 ml-auto flex flex-col list-none lg:mt-0 lg:mb-0 lg:flex-row ">
+<!--      <div class="navbar-collapse offcanvas-collapse lg:flex lg:flex-grow lg:items-center" :class="{'open':isMenuOpen}">-->
+<!--        <ul class="pl-0 mt-3 mb-2 ml-auto flex flex-col list-none lg:mt-0 lg:mb-0 lg:flex-row ">-->
 
-          <li v-for="item in menu " :key="item.key">
-            <RouterLink class="nav-link page-scroll"
-                        :class="{
-                'ms-20 , open':isMenuOpen,
-                'active': activeSection === item.section
-               }"
-              @click="handleNavClick(item.target, item.section)"
-              :to="`${item.target}`">
-              {{ $t(`menu.${item.key}`) }}
-            </RouterLink>
-          </li>
-        </ul>
-      </div> <!-- end of navbar-collapse -->
-    </div> <!-- end of container -->
-  </nav>
+<!--          <li v-for="item in menu " :key="item.key">-->
+<!--            <RouterLink class="nav-link page-scroll"-->
+<!--                        :class="{-->
+<!--                'ms-20 , open':isMenuOpen,-->
+<!--                'active': activeSection === item.section-->
+<!--               }"-->
+<!--              @click="handleNavClick(item.target, item.section)"-->
+<!--              :to="`${item.target}`">-->
+<!--              {{ $t(`menu.${item.key}`) }}-->
+<!--            </RouterLink>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div> &lt;!&ndash; end of navbar-collapse &ndash;&gt;-->
+<!--    </div> &lt;!&ndash; end of container &ndash;&gt;-->
+<!--  </nav>-->
 
 </template>
 

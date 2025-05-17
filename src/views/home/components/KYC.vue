@@ -1,11 +1,9 @@
 <template>
-  <div class="min-h-screen bg-gray-100 py-8">
+  <div class="min-h-screen body  py-8">
     <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
       <!-- Header with Logo -->
       <div class="flex items-center p-6 bg-white border-b border-gray-200">
-        <img src="https://www.jotform.com/uploads/Gonzales_Almira/form_files/symbol-black.67b64acace9e73.81039660.png"
-             alt="KYC Form Logo"
-             class="h-16 mr-6"/>
+
         <div>
           <h1 class="text-2xl font-bold text-purple-800">KYC Form for Real Estate Transactions</h1>
           <p class="text-gray-600">(Buyer/Seller/Developer) In compliance with UAE Anti-Money Laundering Regulations</p>

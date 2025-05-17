@@ -378,6 +378,10 @@ h6 {
     background: linear-gradient(rgba(197, 234, 249, 1), rgba(255, 255, 255, 1));
 }
 
+.body {
+    background: linear-gradient(rgb(0, 0, 0), rgba(67, 59, 13, 0.61),rgb(6, 17, 21));
+}
+
 
 /****************************/
 /*     Details Lightbox     */
