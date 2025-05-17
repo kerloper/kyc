@@ -1,0 +1,19 @@
+{
+  "menu": {
+    "home": "صفحه اصلی",
+    "aboutUs": "درباره ما",
+    "contact": "تماس با ما",
+    "privacyPolicy": "حریم خصوصی",
+    "termsOfService": "قوانین و مقررات",
+    "reportIssue": "گزارش مشکل",
+    "services": "خدمات",
+    "contactUs": "تماس با ما",
+    "portals": "پرتال"
+  },
+  "footer": {
+    "contactUs": "تماس با ما",
+    "whistleblowerProtection": "حفاظت از گزارش‌دهندگان",
+    "reportAnonymously": "گزارش ناشناس",
+    "copyright": " © {year} رزیلنس. تمامی حقوق محفوظ است."
+  }
+}

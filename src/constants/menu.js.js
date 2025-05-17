@@ -1,0 +1,26 @@
+export const menu=[
+    {
+        key:"home",
+        target:"/home#header",
+        section:"header",
+        action:()=>{},
+    },
+    {
+        key:"portals",
+        target:"/home#portals",
+        section:"portals",
+        action:()=>{},
+    },
+    {
+        key:"details",
+        target:"/home#details",
+        section:"details",
+        action:()=>{},
+    },
+    {
+        key:"follow-up",
+        target:"/home#follow_up",
+        section:"follow_up",
+        action:()=>{},
+    }
+]
