@@ -1,39 +1,36 @@
 <template>
-  <div class="signature-container p-4   rounded-box">
+  <section>
+    <div class="signature-container p-4   rounded-box">
 
+      <div
+          ref="signaturePad"
+          @mousedown="startDrawing"
+          @mousemove="draw"
+          @mouseup="stopDrawing"
+          @mouseleave="stopDrawing"
+          @touchstart="startDrawing"
+          @touchmove="draw"
+          @touchend="stopDrawing"
+          class="signature-pad border border-gray-300 rounded-lg p-4 h-36 flex items-center justify-center"
+          :style="{ 'background-color': canvasBackground }"
+      ></div>
+    </div>
+    <div class="flex ps-4 justify-between items-center mb-4">
+      <div class="flex gap-2">
+        <button @click="clearSignature" class="btn btn-outline btn-sm" type="button">
+          Clear
+        </button>
+        <!--        <button @click="saveSignature" class="btn btn-primary btn-sm">-->
+        <!--          Save-->
+        <!--        </button>-->
 
-<!--    <div class="flex justify-between items-center mb-4"> -->
-<!--      <div class="flex gap-2">-->
-<!--        <button @click="clearSignature" class="btn btn-error btn-sm">-->
-<!--          Clear-->
-<!--        </button>-->
-<!--        <button @click="saveSignature" class="btn btn-primary btn-sm">-->
-<!--          Save-->
-<!--        </button>-->
-<!--        -->
-<!--      </div>-->
-<!--    </div>-->
-
-    <div
-        ref="signaturePad"
-        @mousedown="startDrawing"
-        @mousemove="draw"
-        @mouseup="stopDrawing"
-        @mouseleave="stopDrawing"
-        @touchstart="startDrawing"
-        @touchmove="draw"
-        @touchend="stopDrawing"
-        class="signature-pad border border-gray-300 rounded-lg p-4 h-36 flex items-center justify-center"
-        :style="{ 'background-color': canvasBackground }"
-    ></div>
-
-
-
-  </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted} from 'vue';
 
 const signaturePad = ref(null);
 const isDrawing = ref(false);

@@ -593,7 +593,6 @@
               <label class="block text-gray-700 font-medium mb-2">Signature of the Applicant <span class="text-red-500">*</span></label>
 
                 <SignatureLight/>
-              <button type="button" class="btn btn-ghost btn-sm mt-2">Clear Signature</button>
             </div>
           </div>
 

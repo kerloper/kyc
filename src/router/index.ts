@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeLayout from "@/views/index.vue";
 import HomeView from "@/views/home/index.vue";
 import FormView from "@/views/form/index.vue";
-import Error from "@/views/Error.vue";
+import Error from "../views/Error.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
