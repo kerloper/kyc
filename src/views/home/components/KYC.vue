@@ -214,6 +214,7 @@ const clearSignature = () => {
 
 const authStore = useAuthStore()
 const router = useRouter()
+
 async function logout() {
   authStore.clearToken()
   await router.push('/login')
@@ -221,33 +222,31 @@ async function logout() {
 
 </script>
 <template>
-  <div class="min-h-screen">
+  <div class="min-h-screen bg-gray-900 pt-2">
 
-    <div class="max-w-4xl mx-auto flex flex-row rounded-lg shadow-md overflow-hidden">
-      <div class="w-full">
-        <img class="h-20" :src="kycLogo" alt=""/>
-      </div>
-      <div class="mt-auto pb-2 w-32">
-        <div class="btn mt-auto bg-[#b59d0a] h-8 flex flex-row gap-2" @click="logout">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                 stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"/>
-            </svg>
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden border-2">
+      <!-- Header with Logo -->
+      <div class=" bg-white border-b border-gray-200">
+        <div class="flex items-center   bg-white ">
+          <img class="h-20" :src="kycLogo" alt=""/>
+          <div class="w-full">
+
           </div>
-          <div>
-            Logout
+          <div class="btn me-1 mt-1 bg-[#b59d0a] h-8 flex flex-row gap-2 text-white" @click="logout">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                   stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"/>
+              </svg>
+            </div>
+            <div>
+              Logout
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
-      <!-- Header with Logo -->
-      <div class="flex items-center p-6 bg-white border-b border-gray-200">
-
-        <div>
-          <div class="text-2xl font-bold text-gray-600">KYC Form for Real Estate Transactions</div>
+        <div class="w-full text-center items-center md:-mt-10 lg:-mt-10 xl:-mt-10">
+          <div class="text-2xl font-bold text-black">KYC Form for Real Estate Transactions</div>
           <p class="text-gray-600">(Buyer/Seller/Developer) In compliance with UAE Anti-Money Laundering Regulations</p>
         </div>
       </div>
