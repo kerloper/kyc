@@ -2,8 +2,8 @@ export const defaultMenuType = 'visible'
 export const BREAKPOINT = 1280
 export const adminRoot = '/';
 export const searchPath = `${adminRoot}/#`
-export const baseUrl = "https://crm-api.rezilens.com/";
-export const cookieDomain =".rezilens.com";
+export const baseUrl = "https://kyc-api.kerloper.com/";
+export const cookieDomain =".kerloper.com";
 export const localeOptions = [
     {id: 'en', name: 'English', direction: 'ltr'},
     {id: 'ar', name: 'العربی', direction: 'rtl'},

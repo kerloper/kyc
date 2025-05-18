@@ -5,10 +5,13 @@ export default {
 
     // Portal Section
     login(payload) {
-        const options = {
-            method: 'post',
-        }
-        return useMyFetch(baseUrl, "user/authentication/login", options).json().post(payload)
+        return useMyFetch(baseUrl, "user/authentication/login", {}).json().post(payload)
+    },
+    requestEmailOtp(payload) {
+        return useMyFetch(baseUrl, "user/authentication/email/request", {}).json().post(payload)
+    },
+    verifyEmailOtp(payload) {
+        return useMyFetch(baseUrl, "user/authentication/email/verify", {}).json().post(payload)
     },
 
 }

@@ -1,8 +1,246 @@
-<template>
-  <div class="min-h-screen body  py-8">
+<script setup>
+import {ref, reactive, watch} from 'vue';
+import kycLogo from "@/assets/static/kyc-logo.png";
+import Signature from "@/components/Signature.vue";
+import SignatureLight from "@/components/SignatureLight.vue";
+import BaseButton from "@/components/BaseButton.vue";
+import {useAuthStore} from "@/stores/auth.js";
+import {useRouter} from "vue-router";
 
-    <div class="max-w-4xl mx-auto rounded-lg shadow-md overflow-hidden">
-      <img class="h-44 mx-auto" :src="kycLogo" alt=""/>
+// --- Reactive Form Data ---
+const form = reactive({
+  // A. Client Information
+  fullName: {
+    first: '',
+    last: '',
+  },
+  nationality: '',
+  gender: '',
+  dateOfBirth: '',
+  identificationType: '',
+  otherIdentificationType: '',
+  identificationNumber: '',
+  issueDate: '',
+  issuePlace: '',
+  idFile: null,
+
+  // B. Contact Information
+  address: {
+    street: '',
+    building: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    country: '',
+  },
+  phone: {
+    areaCode: '',
+    number: '',
+  },
+  email: '',
+
+  // C. Occupation and Source of Funds
+  occupation: '',
+  employer: '',
+  employerAddress: {
+    street: '',
+    street2: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    country: '',
+  },
+  natureOfBusiness: '',
+  monthlyIncome: '',
+  sourceOfFunds: [], // Will store selected checkbox values
+  otherSourceOfFunds: '',
+
+  // D. Transaction Details
+  transactionRole: '',
+  propertyType: '',
+  propertyAddress: {
+    street: '',
+    building: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    country: '',
+  },
+  transactionType: '',
+  transactionValue: '',
+  paymentMethod: '',
+  otherPaymentMethod: '',
+
+  // E. Politically Exposed Persons (PEPs) and Sanctions
+  isPEP: null, // Using null for initial state, can be true/false
+  PEPDetails: 'Not Applicable',
+  isSanctioned: null, // Using null for initial state, can be true/false
+
+  // F. Beneficial Ownership (For Developers/Companies)
+  companyName: '',
+  companyRegistrationNumber: '',
+  ownershipStructure: '',
+
+  // G. Declaration and Consent
+  applicantName: {
+    first: '',
+    last: '',
+  },
+  signatureDate: '',
+  // You might want to add a field for signature data if using a signature pad library
+  // signatureData: null,
+});
+
+// --- Countries List ---
+// In a real application, you might fetch this from an API
+const countries = ref([
+  'United Arab Emirates', 'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan',
+  'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi',
+  'Cabo Verde', 'Cambodia', 'Cameroon', 'Canada', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo, Democratic Republic of the', 'Congo, Republic of the', 'Costa Rica', "Cote d'Ivoire", 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic',
+  'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic',
+  'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia',
+  'Fiji', 'Finland', 'France',
+  'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana',
+  'Haiti', 'Honduras', 'Hungary',
+  'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy',
+  'Jamaica', 'Japan', 'Jordan',
+  'Kazakhstan', 'Kenya', 'Kiribati', 'Korea, North', 'Korea, South', 'Kosovo', 'Kuwait', 'Kyrgyzstan',
+  'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg',
+  'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar',
+  'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Macedonia', 'Norway',
+  'Oman',
+  'Pakistan', 'Palau', 'Palestine State', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal',
+  'Qatar',
+  'Romania', 'Russia', 'Rwanda',
+  'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland', 'Syria',
+  'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor-Leste', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu',
+  'Uganda', 'Ukraine', 'United Kingdom', 'United States of America', 'Uruguay', 'Uzbekistan',
+  'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam',
+  'Yemen',
+  'Zambia', 'Zimbabwe'
+]);
+
+
+// --- Watchers for Conditional Logic ---
+watch(() => form.identificationType, (newValue) => {
+  if (newValue !== 'other') {
+    form.otherIdentificationType = '';
+  }
+});
+
+watch(() => form.sourceOfFunds, (newValue) => {
+  if (!newValue.includes('other')) {
+    form.otherSourceOfFunds = '';
+  }
+});
+
+watch(() => form.paymentMethod, (newValue) => {
+  if (newValue !== 'other') {
+    form.otherPaymentMethod = '';
+  }
+});
+
+watch(() => form.isPEP, (newValue) => {
+  if (newValue === false || newValue === null) {
+    form.PEPDetails = 'Not Applicable';
+  } else if (newValue === true && form.PEPDetails === 'Not Applicable') {
+    form.PEPDetails = ''; // Clear for user input if they switch to Yes
+  }
+});
+
+
+// --- Methods ---
+const handleFileUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    // You might want to add validation for file type and size here
+    form.idFile = file;
+    console.log('File selected:', file.name);
+  } else {
+    form.idFile = null;
+  }
+};
+
+const submitForm = () => {
+  // Basic validation check (all required fields are marked with * in your HTML)
+  // This is a very basic check; for production, use a library like Vuelidate or implement more robust checks.
+
+  // Log form data for now. In a real app, you'd send this to a server.
+  console.log('Form submitted:', JSON.parse(JSON.stringify(form)));
+
+  // Example: Create FormData if you need to send the file
+  const formData = new FormData();
+  for (const key in form) {
+    if (key === 'idFile' && form.idFile) {
+      formData.append(key, form.idFile, form.idFile.name);
+    } else if (typeof form[key] === 'object' && form[key] !== null && !Array.isArray(form[key])) {
+      // Handle nested objects like fullName, address, etc.
+      for (const subKey in form[key]) {
+        formData.append(`${key}.${subKey}`, form[key][subKey]);
+      }
+    } else if (Array.isArray(form[key])) {
+      form[key].forEach((item, index) => {
+        formData.append(`${key}[${index}]`, item);
+      });
+    } else {
+      formData.append(key, form[key]);
+    }
+  }
+
+  console.log('FormData to be sent:');
+  for (let [key, value] of formData.entries()) {
+    console.log(key, value);
+  }
+
+  alert('Form submitted! Check the console for the form data.');
+  // TODO: Implement actual form submission to a backend API
+  // Example:
+  // fetch('/api/submit-kyc', {
+  //   method: 'POST',
+  //   body: formData, // Use formData if sending files
+  // })
+  // .then(response => response.json())
+  // .then(data => console.log('Success:', data))
+  // .catch((error) => console.error('Error:', error));
+};
+
+// Placeholder for signature pad functionality
+const clearSignature = () => {
+  // TODO: Implement signature clearing logic if using a signature pad
+  console.log('Signature cleared (placeholder)');
+  // form.signatureData = null; // Example
+};
+
+
+const authStore = useAuthStore()
+const router = useRouter()
+async function logout() {
+  authStore.clearToken()
+  await router.push('/login')
+}
+
+</script>
+<template>
+  <div class="min-h-screen body">
+
+    <div class="max-w-4xl mx-auto flex flex-row rounded-lg shadow-md overflow-hidden">
+      <div class="w-full">
+        <img class="h-24 " :src="kycLogo" alt=""/>
+      </div>
+      <div class="mt-auto pb-7 w-32">
+        <div class="btn mt-auto bg-gradient-to-r from-yellow-800 via-yellow-500 to-yellow-700 flex flex-row gap-2" @click="logout">
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"/>
+            </svg>
+          </div>
+          <div>
+            Logout
+          </div>
+        </div>
+      </div>
     </div>
     <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
       <!-- Header with Logo -->
@@ -13,7 +251,6 @@
           <p class="text-gray-600">(Buyer/Seller/Developer) In compliance with UAE Anti-Money Laundering Regulations</p>
         </div>
       </div>
-
 
 
       <form @submit.prevent="submitForm" class="p-6 space-y-8">
@@ -592,7 +829,7 @@
             <div>
               <label class="block text-gray-700 font-medium mb-2">Signature of the Applicant <span class="text-red-500">*</span></label>
 
-                <SignatureLight/>
+              <SignatureLight/>
             </div>
           </div>
 
@@ -624,215 +861,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import {ref, reactive, watch} from 'vue';
-import kycLogo from "@/assets/static/kyc-logo.png";
-import Signature from "@/components/Signature.vue";
-import SignatureLight from "@/components/SignatureLight.vue";
-
-// --- Reactive Form Data ---
-const form = reactive({
-  // A. Client Information
-  fullName: {
-    first: '',
-    last: '',
-  },
-  nationality: '',
-  gender: '',
-  dateOfBirth: '',
-  identificationType: '',
-  otherIdentificationType: '',
-  identificationNumber: '',
-  issueDate: '',
-  issuePlace: '',
-  idFile: null,
-
-  // B. Contact Information
-  address: {
-    street: '',
-    building: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    country: '',
-  },
-  phone: {
-    areaCode: '',
-    number: '',
-  },
-  email: '',
-
-  // C. Occupation and Source of Funds
-  occupation: '',
-  employer: '',
-  employerAddress: {
-    street: '',
-    street2: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    country: '',
-  },
-  natureOfBusiness: '',
-  monthlyIncome: '',
-  sourceOfFunds: [], // Will store selected checkbox values
-  otherSourceOfFunds: '',
-
-  // D. Transaction Details
-  transactionRole: '',
-  propertyType: '',
-  propertyAddress: {
-    street: '',
-    building: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    country: '',
-  },
-  transactionType: '',
-  transactionValue: '',
-  paymentMethod: '',
-  otherPaymentMethod: '',
-
-  // E. Politically Exposed Persons (PEPs) and Sanctions
-  isPEP: null, // Using null for initial state, can be true/false
-  PEPDetails: 'Not Applicable',
-  isSanctioned: null, // Using null for initial state, can be true/false
-
-  // F. Beneficial Ownership (For Developers/Companies)
-  companyName: '',
-  companyRegistrationNumber: '',
-  ownershipStructure: '',
-
-  // G. Declaration and Consent
-  applicantName: {
-    first: '',
-    last: '',
-  },
-  signatureDate: '',
-  // You might want to add a field for signature data if using a signature pad library
-  // signatureData: null,
-});
-
-// --- Countries List ---
-// In a real application, you might fetch this from an API
-const countries = ref([
-  'United Arab Emirates', 'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan',
-  'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi',
-  'Cabo Verde', 'Cambodia', 'Cameroon', 'Canada', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo, Democratic Republic of the', 'Congo, Republic of the', 'Costa Rica', "Cote d'Ivoire", 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic',
-  'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic',
-  'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia',
-  'Fiji', 'Finland', 'France',
-  'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana',
-  'Haiti', 'Honduras', 'Hungary',
-  'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy',
-  'Jamaica', 'Japan', 'Jordan',
-  'Kazakhstan', 'Kenya', 'Kiribati', 'Korea, North', 'Korea, South', 'Kosovo', 'Kuwait', 'Kyrgyzstan',
-  'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg',
-  'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar',
-  'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Macedonia', 'Norway',
-  'Oman',
-  'Pakistan', 'Palau', 'Palestine State', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal',
-  'Qatar',
-  'Romania', 'Russia', 'Rwanda',
-  'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland', 'Syria',
-  'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor-Leste', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu',
-  'Uganda', 'Ukraine', 'United Kingdom', 'United States of America', 'Uruguay', 'Uzbekistan',
-  'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam',
-  'Yemen',
-  'Zambia', 'Zimbabwe'
-]);
-
-
-// --- Watchers for Conditional Logic ---
-watch(() => form.identificationType, (newValue) => {
-  if (newValue !== 'other') {
-    form.otherIdentificationType = '';
-  }
-});
-
-watch(() => form.sourceOfFunds, (newValue) => {
-  if (!newValue.includes('other')) {
-    form.otherSourceOfFunds = '';
-  }
-});
-
-watch(() => form.paymentMethod, (newValue) => {
-  if (newValue !== 'other') {
-    form.otherPaymentMethod = '';
-  }
-});
-
-watch(() => form.isPEP, (newValue) => {
-  if (newValue === false || newValue === null) {
-    form.PEPDetails = 'Not Applicable';
-  } else if (newValue === true && form.PEPDetails === 'Not Applicable') {
-    form.PEPDetails = ''; // Clear for user input if they switch to Yes
-  }
-});
-
-
-// --- Methods ---
-const handleFileUpload = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    // You might want to add validation for file type and size here
-    form.idFile = file;
-    console.log('File selected:', file.name);
-  } else {
-    form.idFile = null;
-  }
-};
-
-const submitForm = () => {
-  // Basic validation check (all required fields are marked with * in your HTML)
-  // This is a very basic check; for production, use a library like Vuelidate or implement more robust checks.
-
-  // Log form data for now. In a real app, you'd send this to a server.
-  console.log('Form submitted:', JSON.parse(JSON.stringify(form)));
-
-  // Example: Create FormData if you need to send the file
-  const formData = new FormData();
-  for (const key in form) {
-    if (key === 'idFile' && form.idFile) {
-      formData.append(key, form.idFile, form.idFile.name);
-    } else if (typeof form[key] === 'object' && form[key] !== null && !Array.isArray(form[key])) {
-      // Handle nested objects like fullName, address, etc.
-      for (const subKey in form[key]) {
-        formData.append(`${key}.${subKey}`, form[key][subKey]);
-      }
-    } else if (Array.isArray(form[key])) {
-      form[key].forEach((item, index) => {
-        formData.append(`${key}[${index}]`, item);
-      });
-    } else {
-      formData.append(key, form[key]);
-    }
-  }
-
-  console.log('FormData to be sent:');
-  for (let [key, value] of formData.entries()) {
-    console.log(key, value);
-  }
-
-  alert('Form submitted! Check the console for the form data.');
-  // TODO: Implement actual form submission to a backend API
-  // Example:
-  // fetch('/api/submit-kyc', {
-  //   method: 'POST',
-  //   body: formData, // Use formData if sending files
-  // })
-  // .then(response => response.json())
-  // .then(data => console.log('Success:', data))
-  // .catch((error) => console.error('Error:', error));
-};
-
-// Placeholder for signature pad functionality
-const clearSignature = () => {
-  // TODO: Implement signature clearing logic if using a signature pad
-  console.log('Signature cleared (placeholder)');
-  // form.signatureData = null; // Example
-};
-
-</script>>
