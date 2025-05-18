@@ -8,8 +8,8 @@ import TopNav from "@/containers/TopNav.vue";
 </script>
 
 <template>
-  <div class="flex flex-col  mx-auto">
-<!--    <TheHeader/>-->
+  <div class="flex flex-col mx-auto">
+    <!--    <TheHeader/>-->
     <SideBar></SideBar>
     <div class=" ">
       <main class=" ">
@@ -18,7 +18,7 @@ import TopNav from "@/containers/TopNav.vue";
         </div>
       </main>
     </div>
-<!--    <TheFooter class="mt-auto"/>-->
+    <!--    <TheFooter class="mt-auto"/>-->
   </div>
 </template>
 

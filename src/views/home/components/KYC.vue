@@ -221,14 +221,14 @@ async function logout() {
 
 </script>
 <template>
-  <div class="min-h-screen body">
+  <div class="min-h-screen">
 
     <div class="max-w-4xl mx-auto flex flex-row rounded-lg shadow-md overflow-hidden">
       <div class="w-full">
-        <img class="h-24 " :src="kycLogo" alt=""/>
+        <img class="h-20" :src="kycLogo" alt=""/>
       </div>
-      <div class="mt-auto pb-7 w-32">
-        <div class="btn mt-auto bg-gradient-to-r from-yellow-800 via-yellow-500 to-yellow-700 flex flex-row gap-2" @click="logout">
+      <div class="mt-auto pb-2 w-32">
+        <div class="btn mt-auto bg-[#b59d0a] h-8 flex flex-row gap-2" @click="logout">
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="size-6">
