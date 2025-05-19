@@ -187,13 +187,13 @@ onMounted(() => {
     <div class="w-full max-w-md">
       <div class="bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-yellow-400/20">
         <!-- Gold gradient accent header -->
-        <div class="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 h-2"></div>
+        <div class="bg-[#b59d82] h-2"></div>
 
         <div class="p-8">
           <!-- Logo/Title -->
           <div class="flex justify-center mb-8">
             <div class="text-center">
-              <h1 class="text-2xl font-bold  text-white   bg-gradient-to-r from-yellow-400/40 to-yellow-400/10 rounded-full px-4">
+              <h1 class="text-2xl font-bold  text-white bg-[#b59d82] rounded-full px-4">
                 Secure Access
               </h1>
               <p class="text-gray-400 mt-1" v-if="step === 1">Enter your email to continue</p>
@@ -218,7 +218,7 @@ onMounted(() => {
 
             <button
                 type="submit"
-                class="w-full cursor-pointer bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-gray-800 shadow-md hover:shadow-yellow-500/20"
+                class="w-full cursor-pointer bg-[#b59d82] hover:from-yellow-600 hover:to-yellow-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-gray-800 shadow-md hover:shadow-yellow-500/20"
                 :disabled="isSubmitting"
             >
               <span v-if="!isSubmitting">Send OTP</span>
@@ -258,7 +258,7 @@ onMounted(() => {
 
             <button
                 type="submit"
-                class="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-gray-800 shadow-md hover:shadow-yellow-500/20"
+                class="w-full bg-[#b59d82] hover:from-yellow-600 hover:to-yellow-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-gray-800 shadow-md hover:shadow-yellow-500/20"
                 :disabled="isSubmitting"
             >
               <span v-if="!isSubmitting">Verify & Continue</span>
